@@ -3,10 +3,8 @@
 session_start();
 
 $code = '';
-$result = '';
-$dir = '';
 
-$result = trim(`cd result; find *;`);
+$result = `cd result; find *;`;
 $dir = "result/";
 
 
@@ -19,12 +17,12 @@ for ($i = 0; isset($n[$i]); $i++) {
 	$c = count($a);
 
 	$s = 0;
-	for ($i = 0; $i < $c; $i++) { 
-		$s += $a[$i];
+	for ($j = 0; $j < $c; $j++) { 
+		$s += $a[$j];
 	}
 
 	$l = $s."px";
-	$t = $i."px";
+	$t = "0px";
 	
 	if ($p != ""){
 		$code .= "<div style='left: $l; top: $t; position: relative; font-weight: bold; font-size: 20px'>
