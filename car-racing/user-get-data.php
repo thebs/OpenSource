@@ -10,9 +10,56 @@ $loginname = $_SESSION['register'];
 touch("online/$loginname");
 touch("result/$loginname");
 
+$str = '';
+
+
+$result = trim(`cd result; find *;`);
+$dir = "result/";
+
+$n = explode("\n", $result);
+$len = count($n);
+
+$smax = 0;
+$smin = 0;
+$sy = 0;
+
+//for ($i = 0; isset($n[$i]); $i++) { 
+for ($i = 0; $i < $len; $i++){
+
+	$p = $n[$i];
+
+	if ($p == '')	continue;
+
+	$f = file_get_contents($dir.$p);
+	$a = explode("\n", $f);
+	$c = count($a);
+
+	$s = 0;
+	for ($j = 0; $j < $c; $j++) { 
+		$s += $a[$j];
+	}
+
+	if ($s > $smax)
+		$smax = $s;
+
+	if ($i == 0)
+		$smin = $s;
+
+	if ($s < $smin)
+		$smin = $s;
+
+	if ($p == $loginname)
+		$sy = $s;
+}
+
+$str .= "<div id='score' style='font-size: 20px; font-weight: bold;'>
+			Max : <div style='color: #4CAF50; display: inline'>$smax</div>, 
+			Min : <div style='color: #f44336; display: inline'>$smin</div>, 
+			Your Score : <div style='color: #2196F3; display: inline'>$sy</div>
+		</div>";
 
 unset($time_left);
-$str = '';
+
 
 if(file_exists('start')){
 	$timenow = time();
@@ -20,7 +67,7 @@ if(file_exists('start')){
 
 	if($timenow <= $end){
 	    $time_left = $end - $timenow; // find time left
-	    $str .= "<div style='font-size: 20px; font-weight: bold; text-align: center; position: absolute; top: 10px; left: 600px;'>
+	    $str .= "<div id='time-left' style='font-size: 20px; font-weight: bold; text-align: center; position: absolute; top: 10px; left: 100px;'>
 				[ Time left = <div style='color: #f44336; display: inline;'>$time_left</div> ]
 			</div>";
 		//$str = '';
@@ -31,63 +78,42 @@ if(file_exists('start')){
 function getButton(){
 	
 	$id = $_SESSION["register"];
+	//$code = "<div id='randomScreen'>";
+	$code = '';
 
-	$code = "<div id='randomScreen'>";
+	$p = range(1, 10);
+	shuffle($p);
 
-	$p = array(1, 3, 5);
+	$c = array(	"#F44336", "#E91E63","#9C27B0", "#2196F3", "#3F51B5", 
+				"#009688", "#FF9800", "#795548", "#607D8B", "#000000");
+	shuffle($c);
 
-	$r = "background-color: #f44336;";
-	$g = "background-color: #4CAF50;";
-	$b = "background-color: #008CBA;";
-	
-	$c = array($r, $g, $b);
-	$rg = range(0, 2);
-
-	$c2 = 4;
-	$h2 = 1000;
-
-	for($i = 0; $i < 3; $i++){
-
-		if ($i == 0){
-			$rd = rand(0, 2);
-			$c1 = $rd;
-
-			$rH = rand(0, 550);
-			$h1 = $rH;
-		}
-		else{
-
-			do{
-				$rd = rand(0, 2);
-			}while($c1 == $rd or $c2 == $rd);
-			$c2 = $rd;
-
-			do{
-				$rH = rand(0, 550);
-			}while( ( $rH > ($h1-50) and $rH < ($h1+50) ) or ( $rH > ($h2-50) and $rH < ($h2+50) ) );
-			$h2 = $rH;
-		}
-	
-		$rH .= "px";
-		$rW = rand(0, 800)."px";
-		$a = $p[$i];
-
-		$code .= "<button id='bnRace' onclick=\"sendMe('$id', $a)\" 
-					style='margin: 5px; top: $rH; left: $rW; position: relative; $c[$rd]'>
-					 $a </button>";
+	$l = array();
+	$min = 0;
+	$max = 110;
+	for ($i = 0; $i < 10; $i++) { 
+		$l[$i] = rand($min, $max);
+		$min = $l[$i] + 50;
+		$max = $min + 110;
 	}
 
-	$code .= "</div>";
+	shuffle($l);
+	
+
+	$rd = rand(3, 10);
+	for($i = 0; $i < $rd; $i++){
+		$a = $p[$i];
+		$b = "background-color: $c[$i];";
+
+		$pl = $l[$i]."px";
+		$pos = "position: absolute; left: $pl; top: 55px;";
+
+		$code .= "<button id='bnRace' onclick=\"sendMe('$id', $a)\" style='$b $pos'> $a </button>";
+	}
+	//$code .= "</div>";
 
 	return $code;
 }
-
-// displat time left
-/*if(isset($time_left)){
-$str .= "<div style='font-size: 20px; font-weight: bold; text-align: center;'>
-				[ Time left = <div style='color: #f44336; display: inline;'>$time_left</div> ]
-			</div>";
-}*/
 
 echo $str;
 

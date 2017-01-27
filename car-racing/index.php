@@ -2,8 +2,8 @@
 
 session_start();
 
-$server = $_SERVER['PHP_SELF'];
-$_SESSION['index'] = $server;
+$thislink = $_SERVER['PHP_SELF'];
+$_SESSION['index'] = $thislink;
 
 ?>
 
@@ -40,9 +40,18 @@ if (isset($_REQUEST['logout'])){
 
 	unset($_SESSION['register'], $_SESSION['fullname']);
 
-	header("Location: $server");    
+	header("Location: $thislink");    
 	exit(); 
 }
+
+if (isset($_REQUEST['list'])){
+
+	$_SESSION['list'] = "list";
+
+	header("Location: manage.php");    
+	exit(); 
+}
+
 
 ?>
 

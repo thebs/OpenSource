@@ -1,20 +1,35 @@
 <?php
 
+//session_start();
+
 // will allow only admin
 if($_SESSION['register'] != 'admin'){
+	header("Location: index.php"); 
 	exit();	
 }
 
 ?>
 
-<div id="content-admin" style="text-align: right;margin: 10px 20px 10px 0;">
-	<form>
-		Welcome <?php echo $_SESSION['register']; ?>
-		<button id="logout" type='submit' name='logout'>Log Out</button>
-	</form>
+<div id="content-admin" style="margin: 10px 20px 0 0; font-size: 16px; font-weight: bold; width: 100%">
+	<div style="float: center;">
+		<div id="get-data"></div>
+	</div>
+	<div style="position: absolute; right: 10px; top: 10px;">
+		<form action="index.php">
+			Welcome <?php echo $_SESSION['register']; ?>
+			<button id="edit" type='submit' name='list'>Edit</button>
+			<button id="logout" type='submit' name='logout'>Log Out</button>
+		</form>
+	</div>
 </div>
 
-<div id="scoreTable"></div>
+<!--<form action="admin-get-data.php" align='center'>
+	<button id="start" type='submit' name='start'>Start</button>
+	<button id="stop" type='submit' name='stop'>Stop</button>
+</form>-->
+
+
+<div id="get-user"></div>
 <div id="carScreen"></div>
 
 <script type="text/javascript">
@@ -33,14 +48,14 @@ if($_SESSION['register'] != 'admin'){
 		xhttp.onreadystatechange = function (){
 			if (this.readyState == 4 && this.status == 200){
 				var data = xhttp.responseText;
-				document.getElementById('scoreTable').innerHTML = data;
+				document.getElementById('get-data').innerHTML = data;
 			}
 		}
 
 		xhttp.open("GET", "admin-get-data.php", true);
 		xhttp.send();
 
-		setTimeout("getCar()", 1000);
+		setTimeout("getData()", 1000);
 	}
 
 	function getCar() {
@@ -64,7 +79,7 @@ if($_SESSION['register'] != 'admin'){
 		xhttp.open("GET", "car.php", true);
 		xhttp.send();
 
-		setTimeout("getData()", 1000);
+		setTimeout("getCar()", 1000);
 	}
 
 	getData();

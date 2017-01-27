@@ -1,6 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Car Racing</title>
+
+	<link rel="stylesheet" type="text/css" href="asset/bootstrap.min.css">
+	<script type="text/javascript" src="asset/bootstrap.min.js"></script>
+	<script type="text/javascript" src="asset/jquery.js"></script>
+
+	<link rel="stylesheet" href="asset/style.css">
+
+</head>
+<body>
+
+
+
+
 <?php 
 
 session_start();
+
+$home = $_SESSION['index'];
 
 // make pass dir if not exists
 if(!is_dir('pass')) {
@@ -22,7 +41,7 @@ if(!is_dir('result')) {
 }
 
 if(!is_dir('image')) {
-	// keep selection result
+	// keep selection image
 	`mkdir image;chmod 700 image`;
 	`echo 'deny from all' > image/.htaccess`;
 }
@@ -96,38 +115,100 @@ if(isset($_REQUEST['username']) and isset($_REQUEST['password']) and isset($_REQ
 	$p = trim($_REQUEST['password']);
 
 	if($u == '' or $p == '') {
+
+		$html = "<div align='center' style='margin-top: 40px;'>
+					<div style='font-size: 25px; font-weight: bold; color: #f44336'>
+						Username or Passwors invalid.
+					</div><br>
+					<div style='font-size: 16px;'>
+						If you try to register, choose a new username.<br>
+						If you try to login, give new password.<br>
+					</div><br>
+					<a href='$home'>
+						<button id='home'>Back</button></a>
+				</div>";
+
+		echo $html;
+		echo "<script>window.alert('Username or Passwors invalid.')</script>";
+
 		//if empty do nothing
 		if(isset($_SESSION['register'])) unset($_SESSION['register']);
 		if(isset($_REQUEST['username'])) unset($_REQUEST['username']);
 		if(isset($_REQUEST['fullname'])) unset($_REQUEST['fullname']);
 		if(isset($_REQUEST['password'])) unset($_REQUEST['password']);
+
+		exit();
+
 	}else{
         $filename = 'pass/'.$u.'.php';
 		if(!file_exists($filename)){
+
+			$html = "<div align='center' style='margin-top: 40px;'>
+						<div style='font-size: 25px; font-weight: bold; color: #f44336'>
+							Username: $u does not exist.
+						</div><br>
+						<div style='font-size: 16px;'>
+							If you try to register, choose a new username.<br>
+						</div><br>
+						<a href='$home'>
+							<button id='home'>Back</button></a>
+					</div>";
+
+			echo $html;
+			echo "<script>window.alert('Username does not exists')</script>";
+				
+
 			if(isset($_SESSION['register'])) unset($_SESSION['register']);
 			if(isset($_REQUEST['username'])) unset($_REQUEST['username']);
 			if(isset($_REQUEST['fullname'])) unset($_REQUEST['fullname']);
 			if(isset($_REQUEST['password'])) unset($_REQUEST['password']);
+
+			exit();
+
 		}else{            
 			include($filename);
 			if($pass == ''){
-				echo "<font color=red>New password for userName: $u has set to $p</font><br>";
+
+				$html = "<div align='center' style='margin-top: 40px;'>
+							<div style='font-size: 25px; font-weight: bold; color: #4CAF50'>
+								New password for username: $u has set to $p
+							</div><br><br>
+							<a href='$home'>
+								<button id='home'>Continue</button></a>
+						</div>";
+
+				echo $html;
+
 				$_SESSION['register'] = $u;
 				$_SESSION['fullname'] = $fullname;
 				// write new pass to file
 				$loginname = $u;
 				$pass = md5($p);
-				$str = "<?php\n\$fullname='$fullname';\n\$pass='$pass';\n?>";
+				$str = "<?php\n\$fullname = '$fullname';\n\$pass = '$pass';\n?>";
 				file_put_contents($filename, $str);        
+
+				exit();
 
 			}elseif($pass != md5($p)){
 				// not same pass
-				echo "<font color=red>Name: $u exists.</font><br>";
-				echo "If you try to register,choose a new name.<br>";
-				echo "If you try to login,give new password.<br>";
-				echo "<a href='$server'>Go back</a>";
-				echo "window.alert('invalid password')";
+
+				$html = "<div align='center' style='margin-top: 40px;'>
+							<div style='font-size: 25px; font-weight: bold; color: #f44336'>
+								Username: $u exists.
+							</div><br>
+							<div style='font-size: 16px;'>
+								If you try to register, choose a new username.<br>
+								If you try to login, give new password.<br>
+							</div><br>
+							<a href='$home'>
+								<button id='home'>Back</button></a>
+						</div>";
+
+				echo $html;
+				echo "<script>window.alert('Invalid password. Please try again.')</script>";
+
 				exit();
+
 			}else{				
 				$_SESSION['register'] = $u;
 				$_SESSION['fullname'] = $fullname;
@@ -142,3 +223,6 @@ header("Location: $server");
 exit(); 
 
 ?>
+
+</body>
+</html>
