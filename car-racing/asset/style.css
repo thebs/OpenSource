@@ -1,5 +1,5 @@
 body {
-    background-color: #eee;
+    background-color: #fff;
 }
 .panel-login {
 	border-color: #ccc;
@@ -94,22 +94,41 @@ body {
 	margin: 90px auto;
 }
 
-#logout {
-	background-color: #f44336;
-	border: none;
-	color: white;
-    padding: 4px 8px;
-    text-align: center;
-}
-
 #start {
 	background-color: #4CAF50;
+}
+
+#stop {
+	background-color: #f44336;
+}
+
+#edit {
+	background-color: #f4511e;
+}
+
+#logout {
+	background-color: #2196F3;
+}
+
+#home {
+	background-color: #808080;
+}
+
+#clear {
+	background-color: #f4511e;
+}
+
+#start, #stop, #edit, #logout, #home, #clear {
 	border: none;
 	color: white;
-    padding: 8px 16px;
+    padding: 5px 10px;
     text-align: center;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 16px;
+}
+
+#start:hover, #stop:hover, #edit:hover, #logout:hover, #home:hover, #clear:hover {
+	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
 #bnRace {
@@ -121,19 +140,53 @@ body {
     font-size: 20px;
 }
 
-#scoreTable {
+#get-data, #screen {
 	text-align: center;
 }
 
-#randomScreen , #screen{
-	width: 1000px;
-	height: 600px;
-	margin: 10px auto;
+#randomScreen {
+	width: 100%;
+	height: 55px;
+	margin-top: 10px;
 	background-color: #333;
 }
 
+
 #carScreen {
 	position: absolute;
-	top: 160px;
-	left: 50px;
+	top: 70px;
+	left: 20px;
+}
+
+
+#car-on-user {
+	position: absolute;
+	top: 110px;
+	left: 20px;
+}
+
+.tb {
+    border-collapse: collapse;
+    width: 70%;
+ 	font-size: 16px;
+ 	border: 1px solid #ddd;
+}
+
+th {
+    text-align: center;
+    padding: 8px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+tr, th, td {
+    border: 1px solid #ddd;
+}
+
+.tbonline {
+    border-collapse: collapse;
+    width: 30%;
+ 	font-size: 16px;
 }
