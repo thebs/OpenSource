@@ -16,28 +16,22 @@ if(isset($_REQUEST['start'])){
 	$timenow = time() + 3*60;
 	file_put_contents('start', $timenow);
 	// clear past data
-	`cd online; rm *;cd ../result; rm *`;
+	`cd online; rm *; cd ../result; rm *`;
 
-	//echo "<script language=\"JavaScript\" type=\"text/javascript\">\n";
-	//echo "location.href = 'index.php';\n";
-	//echo "</script>\n";
 	header("Location: $server");    
 	exit();
 }
 
+// click stop
 if (isset($_REQUEST['stop'])){
-
 	unlink('start');
-
 	header("Location: $server");    
 	exit(); 
 }
 
+// logout
 if (isset($_REQUEST['logout'])){
-
 	unlink("online/".$_SESSION['register']);
-	//unlink("result/".$_SESSION['register']);
-
 	unset($_SESSION['register'], $_SESSION['fullname']);
 
 	header("Location: $server");    
@@ -45,11 +39,9 @@ if (isset($_REQUEST['logout'])){
 }
 
 
-
 $loginname = $_SESSION['register'];
 touch("online/$loginname"); // for online keeping
 $str = '';
-
 
 # Score
 $result = trim(`cd result; find *;`);
@@ -60,7 +52,6 @@ $smax = 0;
 $smin = 0;
 
 for ($i = 0; isset($n[$i]); $i++) { 
-
 	$p = $n[$i];
 
 	if ($p == '')	continue;
@@ -68,8 +59,8 @@ for ($i = 0; isset($n[$i]); $i++) {
 	$f = file_get_contents($dir.$p);
 	$a = explode("\n", $f);
 	$c = count($a);
-
 	$s = 0;
+
 	for ($j = 0; $j < $c; $j++) { 
 		$s += $a[$j];
 	}
@@ -87,7 +78,6 @@ for ($i = 0; isset($n[$i]); $i++) {
 
 $tm = '';
 
-## add start button
 // clear expired start
 unset($time_left);
 if(file_exists('start')){
@@ -104,19 +94,18 @@ if(file_exists('start')){
 				</div>";
 	}
 
-	$lt = "510px";
-
+	// stop button
 	$bn .= "<form action='admin-get-data.php'>
 				<button id='stop' type='submit' name='stop'>Stop</button>
 			</form>";
 }else{
+	// start button
 	$bn .= "<form action='admin-get-data.php'>
 				<button id='start' type='submit' name='start'>Start</button>
 			</form>";
-
-	$lt = "600px";
 }
 
+// score max, min, time left and button
 $str .= "<div id='score' style='font-size: 20px; font-weight: bold;'>
 			Max : <div style='color: #4CAF50; display: inline'>$smax</div>, 
 			Min : <div style='color: #f44336; display: inline'>$smin</div>
@@ -136,8 +125,6 @@ $str .= "<a href='user-online.php'>
 				User online are : 
 				<div style='color: #4CAF50; display: inline;'>$cnt</div>
 			</div></a>";
-
-
 
 # display	
 echo "$str";

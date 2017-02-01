@@ -6,24 +6,25 @@ if(!isset($_SESSION['register'])){
 	exit();
 }
 
+// add file user in online and result
 $loginname = $_SESSION['register'];
 touch("online/$loginname");
 touch("result/$loginname");
 
 $str = '';
 
-
+// find result
 $result = trim(`cd result; find *;`);
 $dir = "result/";
 
 $n = explode("\n", $result);
 $len = count($n);
 
+// score
 $smax = 0;
 $smin = 0;
 $sy = 0;
 
-//for ($i = 0; isset($n[$i]); $i++) { 
 for ($i = 0; $i < $len; $i++){
 
 	$p = $n[$i];
@@ -60,7 +61,6 @@ $str .= "<div id='score' style='font-size: 20px; font-weight: bold;'>
 
 unset($time_left);
 
-
 if(file_exists('start')){
 	$timenow = time();
 	$end = file_get_contents('start');
@@ -70,24 +70,26 @@ if(file_exists('start')){
 	    $str .= "<div id='time-left' style='font-size: 20px; font-weight: bold; text-align: center; position: absolute; top: 10px; left: 100px;'>
 				[ Time left = <div style='color: #f44336; display: inline;'>$time_left</div> ]
 			</div>";
-		//$str = '';
+
 		$str .= getButton();
 	}
 }
 
+// button for user click to get score
 function getButton(){
 	
 	$id = $_SESSION["register"];
-	//$code = "<div id='randomScreen'>";
 	$code = '';
 
-	$p = range(1, 10);
+	$p = range(1, 7);	// point
 	shuffle($p);
 
+	// color for button
 	$c = array(	"#F44336", "#E91E63","#9C27B0", "#2196F3", "#3F51B5", 
 				"#009688", "#FF9800", "#795548", "#607D8B", "#000000");
 	shuffle($c);
 
+	// create position for button
 	$l = array();
 	$min = 0;
 	$max = 110;
@@ -99,8 +101,8 @@ function getButton(){
 
 	shuffle($l);
 	
-
-	$rd = rand(3, 10);
+	// create button
+	$rd = rand(3, 7);
 	for($i = 0; $i < $rd; $i++){
 		$a = $p[$i];
 		$b = "background-color: $c[$i];";
@@ -110,7 +112,6 @@ function getButton(){
 
 		$code .= "<button id='bnRace' onclick=\"sendMe('$id', $a)\" style='$b $pos'> $a </button>";
 	}
-	//$code .= "</div>";
 
 	return $code;
 }

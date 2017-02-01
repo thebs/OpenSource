@@ -23,35 +23,39 @@ $_SESSION['index'] = $thislink;
 
 <?php 
 
+// request register or login
 if (!isset($_SESSION['register'])){
 	include 'login-register.html';
 }else{
+	// login with admin
 	if($_SESSION['register'] == 'admin'){
 		include 'index_admin.php';
+		
+	// login with user
 	}else{
 		include 'index_user.php';
 	}
 }
 
+// logout
 if (isset($_REQUEST['logout'])){
 
 	unlink("online/".$_SESSION['register']);
-	//unlink("result/".$_SESSION['register']);
-
 	unset($_SESSION['register'], $_SESSION['fullname']);
 
+	// refresh this page
 	header("Location: $thislink");    
 	exit(); 
 }
 
+// for edit user 
 if (isset($_REQUEST['list'])){
-
 	$_SESSION['list'] = "list";
 
+	// goto manager.php
 	header("Location: manage.php");    
 	exit(); 
 }
-
 
 ?>
 

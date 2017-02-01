@@ -1,7 +1,5 @@
 <?php
 
-//session_start();
-
 // will allow only admin
 if($_SESSION['register'] != 'admin'){
 	header("Location: index.php"); 
@@ -10,6 +8,7 @@ if($_SESSION['register'] != 'admin'){
 
 ?>
 
+<!-- section right -->
 <div id="content-admin" style="margin: 10px 20px 0 0; font-size: 16px; font-weight: bold; width: 100%">
 	<div style="float: center;">
 		<div id="get-data"></div>
@@ -23,13 +22,6 @@ if($_SESSION['register'] != 'admin'){
 	</div>
 </div>
 
-<!--<form action="admin-get-data.php" align='center'>
-	<button id="start" type='submit' name='start'>Start</button>
-	<button id="stop" type='submit' name='stop'>Stop</button>
-</form>-->
-
-
-<div id="get-user"></div>
 <div id="carScreen"></div>
 
 <script type="text/javascript">
