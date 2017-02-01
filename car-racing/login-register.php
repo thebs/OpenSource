@@ -12,9 +12,6 @@
 </head>
 <body>
 
-
-
-
 <?php 
 
 session_start();
@@ -50,7 +47,7 @@ if(!is_dir('image')) {
 // admin if not exists
 if(!file_exists('pass/admin.php')){
 	if(isset($user)) unset($user);
-	// add admin with pass=@admin
+	// add admin with pass = admin
 	$p = md5('admin');
 	$str = "<?php\n\$fullname = 'Suphakrit Nakhabat';\n\$pass = '$p';\n?>";
 	file_put_contents('pass/admin.php', $str);
@@ -63,7 +60,6 @@ if(isset($_REQUEST['username']) and isset($_REQUEST['password']) and isset($_REQ
 
 	// take submitted data
 	$u = trim($_REQUEST['username']);
-	//$n = strtoupper($n);
 	$fullname = trim($_REQUEST['name']);
 	$p = trim($_REQUEST['password']);
 
@@ -111,9 +107,9 @@ if(isset($_REQUEST['username']) and isset($_REQUEST['password']) and isset($_REQ
 
 	// take submitted data
 	$u = trim($_REQUEST['username']);
-	//$u = strtoupper($u);
 	$p = trim($_REQUEST['password']);
 
+	// username or password empty
 	if($u == '' or $p == '') {
 
 		$html = "<div align='center' style='margin-top: 40px;'>
@@ -157,7 +153,6 @@ if(isset($_REQUEST['username']) and isset($_REQUEST['password']) and isset($_REQ
 			echo $html;
 			echo "<script>window.alert('Username does not exists')</script>";
 				
-
 			if(isset($_SESSION['register'])) unset($_SESSION['register']);
 			if(isset($_REQUEST['username'])) unset($_REQUEST['username']);
 			if(isset($_REQUEST['fullname'])) unset($_REQUEST['fullname']);

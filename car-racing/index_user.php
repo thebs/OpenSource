@@ -71,26 +71,6 @@ $fullname = $_SESSION['fullname'];
 		setTimeout("getCar()", 1000);
 	}
 
-	/*function getScreen() {
-		var xhttp;
-
-		var w = screen.availWidth;
-		var h = screen.availHeight;
-
-		if (window.XMLHttpRequest) {
-			// code for modern browsers
-		    xhttp = new XMLHttpRequest();
-	    } else {
-	    	// code for old IE browsers
-	    	xhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-
-		xhttp.open("GET", "screen.php?w="w, true);
-		xhttp.send();
-
-		setTimeout("getScreen()", 1000);
-	}*/
-
 	function getData() {
 		var xhttp;
 
